@@ -9,6 +9,67 @@
     
 </body>
 <script>
+function getComputerChoice() {
+    const num = Math.random();
+    if (num < 0.33) {
+        return "rock";
+    } else if (num < 0.66) {
+        return "paper";
+    } else {
+        return "scissors";
+    }
+}
 
-<script/>
+function getHumanChoice(roundNumber) {
+    let choice;
+    do {
+        choice = prompt(`Round ${roundNumber}: Type rock, paper, or scissors`).toLowerCase();
+    } while (!["rock","paper","scissors"].includes(choice));
+    return choice;
+}
+
+function playRound(humanChoice, computerChoice, humanScore, computerScore) {
+    if (humanChoice === computerChoice) {
+        console.log(`You clowns made the same choice! You both chose ${humanChoice}`);
+    } else if (
+        (humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "paper" && computerChoice === "rock") ||
+        (humanChoice === "scissors" && computerChoice === "paper")
+    ) {
+        console.log(`You did it big dog! ${humanChoice} beats ${computerChoice}`);
+        humanScore.value++; 
+    } else {
+        console.log(`You fool! You lost! ${computerChoice} beats ${humanChoice}`);
+        computerScore.value++;
+    }
+}
+
+function playGame() {
+    console.log("Game started");
+
+    let humanScore = { value: 0 };
+    let computerScore = { value: 0 };
+
+    for (let i = 0; i < 5; i++) {
+        const humanChoice = getHumanChoice(i + 1);
+        const computerChoice = getComputerChoice();
+        playRound(humanChoice, computerChoice, humanScore, computerScore);
+        console.log(`Scores => Human: ${humanScore.value}, Computer: ${computerScore.value}`);
+        console.log('-------------------------');
+    }
+
+    // Final winner
+    if (humanScore.value > computerScore.value) {
+        console.log(`🎉 You won brotha!!!! ${humanScore.value} beats ${computerScore.value}`);
+    } else if (humanScore.value === computerScore.value) {
+        console.log(`😅 It's a tie! ${humanScore.value} - ${computerScore.value}`);
+    } else {
+        console.log(`💀 You lost! ${computerScore.value} beats ${humanScore.value}`);
+    }
+}
+
+// Start the game
+playGame();
+</script>
 </html>
+
